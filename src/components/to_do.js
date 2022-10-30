@@ -5,6 +5,8 @@ import AddIcon from '@mui/icons-material/Add';
 const TodoComponent = (props) => {
     const [items, setItems] = useState([]);
     const [value, setValue] = useState("");
+    const [updateIndex, setUpdateIndex] = useState(-1);
+    const [updateValue, setUpdateValue] = useState("");
 
     console.log(items)
 
@@ -42,18 +44,39 @@ const TodoComponent = (props) => {
                                     required
                                     id="outlined-required"
                                     placeholder="New Task"
-                                    disabled
-                                    value={item}
-                                    variant="standard"
+                                    disabled={updateIndex !== index}
+                                    value={updateIndex === index ? updateValue || item : item}
+                                    variant={updateIndex === index ? "outlined" : "standard"}
+                                    onChange={(e) => {
+                                        setUpdateValue(e.target.value);
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <Button color="warning" variant="contained" fullWidth style={{ height: "100%" }}>
-                                    Update
-                                </Button>
+                                {updateIndex === index ?
+                                    <Button color="success" variant="contained" fullWidth style={{ height: "100%" }} onClick={() => {
+                                        const temp = items;
+                                        temp[index] = updateValue;
+                                        setItems([...temp]);
+                                        setUpdateIndex(-1);
+                                        setUpdateValue("");
+                                    }}>
+                                        Save
+                                    </Button>
+                                    :<Button color="warning" variant="contained" fullWidth style={{ height: "100%" }} onClick={() => {
+                                        setUpdateIndex(index)
+                                    }}>
+                                        Update
+                                    </Button>}
                             </Grid>
                             <Grid item xs={6}>
-                                <Button color="error" variant="contained" fullWidth style={{ height: "100%" }}>
+                                <Button color="error" variant="contained" fullWidth style={{ height: "100%" }} onClick={() => {
+                                    const temp = items;
+                                    temp.splice(index, 1);
+                                    setItems([...temp]);
+                                    setUpdateIndex(-1);
+                                    setUpdateValue("");
+                                }}>
                                     Delete
                                 </Button>
                             </Grid>
