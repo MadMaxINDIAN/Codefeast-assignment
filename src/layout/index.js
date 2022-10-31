@@ -17,7 +17,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import CategoryIcon from '@mui/icons-material/Category';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import TodoComponent from '../components/to_do';
+import { Outlet } from 'react-router-dom';
+import { Link } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -117,20 +118,22 @@ export default function Layout() {
                 </DrawerHeader>
                 <List>
                     {['To do list', 'Product'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 1 ? <CategoryIcon /> : <FormatListNumberedIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
+                        <Link href={index % 2 === 0 ? "/todo" : "/product"} key={text}>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        {index % 2 === 1 ? <CategoryIcon /> : <FormatListNumberedIcon />}
+                                    </ListItemIcon>
+                                    <ListItemText primary={text} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
-                <TodoComponent />
+                <Outlet />
             </Main>
         </Box>
     );
