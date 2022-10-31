@@ -16,6 +16,9 @@ function AppRoutes() {
                         path: "todo",
                         element: <TodoComponent />
                     }, {
+                        path: "/",
+                        element: <TodoComponent />
+                    }, {
                         path: "product",
                         element: <Product />
                     }
